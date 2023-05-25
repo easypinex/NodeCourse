@@ -2,6 +2,9 @@ const validator = require('validator')
 const chalk = require('chalk')
 const yargs = require('yargs')
 
+// Custom my version
+yargs.version('1.0.0')
+
 // Create Add Command
 yargs.command({
     command: 'add',
