@@ -1,2 +1,4 @@
 const fs = require('fs');
-fs.writeFileSync('notes.txt', 'some message');
+const filePath = 'notes.txt'
+fs.writeFileSync(filePath, 'some message');
+fs.appendFileSync(filePath, '\nnew message');
