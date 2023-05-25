@@ -1,4 +1,6 @@
 const validator = require('validator')
+const chalk = require('chalk')
 const note = require('./note')
 console.log(note())
 console.log(validator.isURL('https://mead.io'))
+console.log(chalk.green('Success!'))
