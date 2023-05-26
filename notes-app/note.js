@@ -1,15 +1,13 @@
 const fs = require('fs')
 const chalk = require('chalk')
 
-const getNotes = function () {
+const getNotes = () => {
     return 'Your notes...';
 }
 
-const addNodes = function(title, body) {
+const addNodes = (title, body) => {
     const notes = loadNotes()
-    const duplication = notes.filter((note) => {
-        return note.title === title;
-    })
+    const duplication = notes.filter((note) => note.title === title)
     if (duplication.length != 0) {
         // duplication
         console.log(chalk.red.inverse('Note title taken!'));
@@ -23,11 +21,11 @@ const addNodes = function(title, body) {
     console.log(chalk.green.inverse('Added a New note.'))
 }
 
-const saveNotes = function(notes) {
+const saveNotes = (notes) => {
     fs.writeFileSync('notes.json', JSON.stringify(notes))
 }
 
-const loadNotes = function() {
+const loadNotes = () => {
     try {
         const dataBuffer = fs.readFileSync('notes.json')
         const dataJson = dataBuffer.toString()
