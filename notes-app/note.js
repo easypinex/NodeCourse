@@ -1,5 +1,41 @@
+const fs = require('fs')
+
 const getNotes = function () {
     return 'Your notes...';
 }
 
-module.exports = getNotes;
+const addNodes = function(title, body) {
+    const notes = loadNotes()
+    const duplication = notes.filter((note) => {
+        return note.title === title;
+    })
+    if (duplication.length != 0) {
+        // duplication
+        console.warn('Error. duplication note!');
+        return
+    }
+    notes.push({
+        title: title,
+        body: body
+    })
+    saveNotes(notes)
+    console.log('Added a New note.')
+}
+
+const saveNotes = function(notes) {
+    fs.writeFileSync('notes.json', JSON.stringify(notes))
+}
+
+const loadNotes = function() {
+    try {
+        const dataBuffer = fs.readFileSync('notes.json')
+        const dataJson = dataBuffer.toString()
+        return JSON.parse(dataJson);
+    } catch(e) {
+        return []
+    }
+}
+module.exports = {
+    getNotes: getNotes,
+    addNotes: addNodes
+}
