@@ -12,7 +12,7 @@ const addNodes = function(title, body) {
     })
     if (duplication.length != 0) {
         // duplication
-        console.warn('Error. duplication note!');
+        console.log(chalk.red.inverse('Note title taken!'));
         return
     }
     notes.push({
@@ -20,7 +20,7 @@ const addNodes = function(title, body) {
         body: body
     })
     saveNotes(notes)
-    console.log('Added a New note.')
+    console.log(chalk.green.inverse('Added a New note.'))
 }
 
 const saveNotes = function(notes) {
