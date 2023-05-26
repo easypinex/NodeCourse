@@ -35,7 +35,19 @@ const loadNotes = function() {
         return []
     }
 }
+
+const deleteNotes = (title) => {
+    const notes = loadNotes();
+    for (let index = notes.length-1; index >=0 ; index--) {
+        const note = notes[index];
+        if (note.title === title) {
+            notes.splice(index, 1);
+        }
+    }
+    saveNotes(notes)
+}
 module.exports = {
     getNotes: getNotes,
-    addNotes: addNodes
+    addNotes: addNodes,
+    deleteNotes: deleteNotes
 }
