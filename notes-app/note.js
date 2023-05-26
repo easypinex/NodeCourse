@@ -1,4 +1,5 @@
 const fs = require('fs')
+const chalk = require('chalk')
 
 const getNotes = function () {
     return 'Your notes...';
@@ -36,18 +37,26 @@ const loadNotes = function() {
     }
 }
 
-const deleteNotes = (title) => {
+const removeNotes = (title) => {
     const notes = loadNotes();
+    let found = false;
     for (let index = notes.length-1; index >=0 ; index--) {
         const note = notes[index];
         if (note.title === title) {
-            notes.splice(index, 1);
+            notes.splice(index, 1)
+            found = true
+            break
         }
     }
+    if (!found) {
+        console.log(chalk.red.inverse('Note not found!'))
+        return
+    }
     saveNotes(notes)
+    console.log(chalk.green.inverse('Note removed!'))
 }
 module.exports = {
     getNotes: getNotes,
     addNotes: addNodes,
-    deleteNotes: deleteNotes
+    removeNotes: removeNotes
 }
