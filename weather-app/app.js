@@ -2,19 +2,19 @@
 const forecast = require('./utils/forecast');
 const geocode = require('./utils/geocode')
 
+if (process.argv.length < 3) 
+    return console.log('Enter location in argv')
+const location = process.argv[2]
 
-geocode('新北市板橋區莒光路135號3樓', (error, data) => {
+geocode(location, (error, data) => {
     if (error) {
-        console.log(error);
-        return
+        return console.log(error);
     }
-    console.log(data)
+    forecast(data.longtitude, data.latitude, (error, data) => {
+        if (error) {
+            return console.log(error);
+        }
+        console.log(`${data.current.weather_descriptions[0]}. It is currently ${data.current.temperature} degress out. It feels like ${data.current.feelslike} degress out.`)
+    })
 })
 
-forecast(121.470305, 25.024852, (error, data) => {
-    if (error) {
-        console.log(error);
-        return
-    }
-    console.log(`${data.current.weather_descriptions[0]}. It is currently ${data.current.temperature} degress out. It feels like ${data.current.feelslike} degress out.`)
-})
