@@ -1,4 +1,4 @@
-function add(num1, num2, callback) {
+const add = (num1, num2, callback) => {
     setTimeout(() => {
         callback(num1 + num2)
     }, 2000)
