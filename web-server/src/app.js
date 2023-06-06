@@ -6,14 +6,6 @@ const staticDir = path.join(__dirname ,'..', 'public')
 
 app.use(express.static(staticDir))
 
-app.get('/helo', (req, res) => {
-    res.send('Help Page')
-})
-
-app.get('/about', (req, res) => {
-    res.send('<h1>About Page</h1>')
-})
-
 app.get('/weather', (req, res) => {
     res.send({
         forcast: 'forcast',
