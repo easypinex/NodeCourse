@@ -10,6 +10,14 @@ app.get('/helo', (req, res) => {
     res.send('Help Page')
 })
 
+app.get('/about', (req, res) => {
+    res.send('About Page')
+})
+
+app.get('/weather', (req, res) => {
+    res.send('Weather Page')
+})
+
 app.listen(3000, () => {
     console.log('Server is up on port 3000.')
 })
