@@ -3,8 +3,22 @@ const path = require('path')
 
 const app = express()
 const staticDir = path.join(__dirname ,'..', 'public')
-
+app.set('view engine', 'hbs')
 app.use(express.static(staticDir))
+
+app.get('', (req, res) => {
+    res.render('index', {
+        title: 'Weather App',
+        name: 'Perry'
+    })
+})
+
+app.get('/about', (req, res) => {
+    res.render('about', {
+        title: 'About Me',
+        name: 'Perry'
+    })
+})
 
 app.get('/weather', (req, res) => {
     res.send({
