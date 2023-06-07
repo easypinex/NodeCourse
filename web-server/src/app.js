@@ -34,7 +34,8 @@ app.get('/about', (req, res) => {
 app.get('/help', (req, res) => {
     res.render('help', {
         title: 'Help Me',
-        notice: '大家都要互相幫助'
+        notice: '大家都要互相幫助',
+        name: 'Perry'
     })
 })
 
