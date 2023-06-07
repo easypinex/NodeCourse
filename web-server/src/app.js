@@ -5,7 +5,7 @@ const hbs = require('hbs')
 
 const app = express()
 // Define path for Express config
-const staticDir = path.join(__dirname ,'..', 'public')
+const staticDir = path.join(__dirname, '..', 'public')
 const viewsPath = path.join(__dirname, '..', 'templates', 'views')
 const partialsPath = path.join(__dirname, '..', 'templates', 'partials')
 
@@ -47,11 +47,19 @@ app.get('/weather', (req, res) => {
 })
 
 app.get('/help/*', (req, res) => {
-    res.send('Help article not found')
+    res.render('404', {
+        title: '404',
+        message: 'Help article not found',
+        name: 'Perry'
+    })
 })
 
 app.get('*', (req, res) => {
-    res.send('My 404 Page')
+    res.render('404', {
+        title: '404',
+        message: 'Page not found',
+        name: 'Perry'
+    })
 })
 app.listen(3000, () => {
     console.log('Server is up on port 3000.')
