@@ -9,6 +9,9 @@ const staticDir = path.join(__dirname, '..', 'public')
 const viewsPath = path.join(__dirname, '..', 'templates', 'views')
 const partialsPath = path.join(__dirname, '..', 'templates', 'partials')
 
+const geocode = require('./utils/geocode')
+const forecast = require('./utils/forecast')
+
 // Setup handlebars engine and views location
 app.set('view engine', 'hbs')
 app.set('views', viewsPath)
@@ -45,10 +48,20 @@ app.get('/weather', (req, res) => {
             error: 'You must provide address term'
         })
     }
-    res.send({
-        forcast: 'forcast',
-        location: 'location',
-        address: req.query.address
+    geocode(req.query.address, (error, geo_result) => {
+        if (error) {
+            return res.send({ error })
+        }
+        forecast(geo_result.longtitude, geo_result.latitude, (error, forecast_result) => {
+            if (error) {
+                return res.send({ error });
+            }
+            res.send({
+                forecast: forecast_result,
+                location: geo_result.location,
+                address: req.query.address
+            })
+        })
     })
 })
 
