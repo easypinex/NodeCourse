@@ -13,6 +13,7 @@ const message2 = document.querySelector('#message-2')
 
 weatherForm.addEventListener('submit', (e) => {
     e.preventDefault()
+    message1.textContent = 'Loading ...'
     const address = search.value
     if (!address)  {
         message1.textContent = 'You must give search value';
@@ -25,6 +26,10 @@ weatherForm.addEventListener('submit', (e) => {
             if (data.error) {
                 message1.textContent = data.error;
                 return console.log(data.error)
+            }
+            if (data.features.length == 0) {
+                message1.textContent = "Unable to find location. Try another seatch.";
+                return
             }
             const location = data.features[0].place_name
             const latitude = data.features[0].center[1];
