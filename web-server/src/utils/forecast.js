@@ -11,11 +11,12 @@ const forecast = (longtitude, latitude, callback) => {
             return;
         }
         const data = response.body
+        const forecast = data.current.weather_descriptions[0]
         if (data.current == undefined) {
             callback('Unalble to search place, Please Try another place.')
             return;
         }
-        callback(undefined, data)
+        callback(undefined, forecast)
     })
 }
 
