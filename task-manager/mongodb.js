@@ -17,20 +17,38 @@ async function main() {
     //     age: 29
     //   });
 
-    const result = await db.collection('users').insertMany([
+    // const result = await db.collection('users').insertMany([
+    //     {
+    //         name: 'Jen',
+    //         age: 23
+    //     },
+    //     {
+    //         name: 'Gunter',
+    //         age: 26
+    //     },
+    // ]);
+    // if (!result.acknowledged) {
+    //     console.error('insert error.')
+    // }
+
+    const result = await db.collection('tasks').insertMany([
         {
-            name: 'Jen',
-            age: 23
+            description: 'Done of Section 10 course',
+            completed: false
         },
         {
-            name: 'Gunter',
-            age: 26
+            description: '完成事中驗證',
+            completed: false
+        },
+        {
+            description: 'Jenkins 部署設置',
+            completed: true
         },
     ]);
     if (!result.acknowledged) {
-        console.error('insert error.')
+        return console.error('ops! insert error.')
     }
-
+    
     return 'done.';
 }
 
