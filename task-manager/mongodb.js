@@ -11,11 +11,10 @@ async function main() {
     await client.connect();
     console.log('Connected successfully to server');
     const db = client.db(dbName);
-    const query = { name: 'Perry' };
-    const result = await db.collection('users').find(query).toArray();
-    const count = await db.collection('users').countDocuments(query);
-    console.log(result)
-    console.log(count)
+    const last_task = await db.collection('tasks').findOne(new ObjectId("64a28097d4f11f81909a0a52"));
+    console.log('last_task', last_task)
+    const not_complete = await db.collection('tasks').find({ completed: false }).toArray();
+    console.log('not_complete', not_complete)
     return 'done.';
 }
 
