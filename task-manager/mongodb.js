@@ -11,14 +11,11 @@ async function main() {
     await client.connect();
     console.log('Connected successfully to server');
     const db = client.db(dbName);
-    const result = await db.collection('users').updateOne({ _id: new ObjectId('64a277ee1f034ffe05f822e9') },
+    const result = await db.collection('tasks').updateMany({ completed: false },
         {
-            // $set: {
-            //     name: 'Mike'
-            // },
-            $inc: {
-                age: 1
-            }
+            $set: {
+                completed: true
+            },
         })
     if (!result.acknowledged || result.matchedCount == 0)
         console.log('ops! update error.')
