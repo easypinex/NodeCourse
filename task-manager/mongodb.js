@@ -11,7 +11,7 @@ async function main() {
     await client.connect();
     console.log('Connected successfully to server');
     const db = client.db(dbName);
-    const result = await db.collection('users').deleteMany({ age: 23 })
+    const result = await db.collection('tasks').deleteOne({ description: 'Jenkins 部署設置' })
     if (!result.acknowledged || result.deletedCount == 0)
         console.log('ops! delete error.')
     return 'done.';
