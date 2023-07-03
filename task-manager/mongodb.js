@@ -11,14 +11,9 @@ async function main() {
     await client.connect();
     console.log('Connected successfully to server');
     const db = client.db(dbName);
-    const result = await db.collection('tasks').updateMany({ completed: false },
-        {
-            $set: {
-                completed: true
-            },
-        })
-    if (!result.acknowledged || result.matchedCount == 0)
-        console.log('ops! update error.')
+    const result = await db.collection('users').deleteMany({ age: 23 })
+    if (!result.acknowledged || result.deletedCount == 0)
+        console.log('ops! delete error.')
     return 'done.';
 }
 
