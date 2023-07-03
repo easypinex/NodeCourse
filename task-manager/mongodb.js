@@ -11,10 +11,17 @@ async function main() {
     await client.connect();
     console.log('Connected successfully to server');
     const db = client.db(dbName);
-    const last_task = await db.collection('tasks').findOne(new ObjectId("64a28097d4f11f81909a0a52"));
-    console.log('last_task', last_task)
-    const not_complete = await db.collection('tasks').find({ completed: false }).toArray();
-    console.log('not_complete', not_complete)
+    const result = await db.collection('users').updateOne({ _id: new ObjectId('64a277ee1f034ffe05f822e9') },
+        {
+            // $set: {
+            //     name: 'Mike'
+            // },
+            $inc: {
+                age: 1
+            }
+        })
+    if (!result.acknowledged || result.matchedCount == 0)
+        console.log('ops! update error.')
     return 'done.';
 }
 
