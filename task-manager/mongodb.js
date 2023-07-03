@@ -7,22 +7,34 @@ const client = new MongoClient(url);
 const dbName = 'task-masger';
 
 async function main() {
-  // Use connect method to connect to the server
-  await client.connect();
-  console.log('Connected successfully to server');
-  const db = client.db(dbName);
-  
-  await db.collection('users').insertOne({
-    name: 'Perry',
-    age: 29
-  });
+    // Use connect method to connect to the server
+    await client.connect();
+    console.log('Connected successfully to server');
+    const db = client.db(dbName);
 
-  // the following code examples can be pasted here...
+    //   await db.collection('users').insertOne({
+    //     name: 'Perry',
+    //     age: 29
+    //   });
 
-  return 'done.';
+    const result = await db.collection('users').insertMany([
+        {
+            name: 'Jen',
+            age: 23
+        },
+        {
+            name: 'Gunter',
+            age: 26
+        },
+    ]);
+    if (!result.acknowledged) {
+        console.error('insert error.')
+    }
+
+    return 'done.';
 }
 
 main()
-  .then(console.log)
-  .catch(console.error)
-  .finally(() => client.close());
+    .then(console.log)
+    .catch(console.error)
+    .finally(() => client.close());
