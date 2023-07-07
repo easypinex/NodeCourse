@@ -33,14 +33,16 @@ routers.post('/users', async (req, res) => {
 
 routers.patch('/users/:id', async (req, res) => {
     try {
-        const updates = Object.keys(res.body)
+        const updates = Object.keys(req.body)
         const allow_updates = ['name', 'age', 'password', 'email']
         const valid = updates.every((update) => allow_updates.includes(update))
         if (!valid) return res.status(400).send({ error: 'Invalid updates!' })
-        const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true
+
+        const user = await User.findById(req.params.id)
+        updates.forEach((update) => {
+            user[update] = req.body[update]
         })
+        await user.save()
         if (!user) return res.status(404).send()
         res.send(user)
     } catch (e) {
