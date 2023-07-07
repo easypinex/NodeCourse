@@ -15,7 +15,7 @@ routers.get('/users/:id', async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
         if (!user) return res.status(404).send()
-        res.status(200).send(user);
+        res.status(200).send(user)
     } catch (e) {
         res.status(400).send(e)
     }
@@ -28,6 +28,15 @@ routers.post('/users', async (req, res) => {
         res.status(201).send(user)
     } catch (e) {
         res.status(400).send(e)
+    }
+})
+
+routers.post('/users/login', async (req, res) => {
+    try {
+        const user = await User.findByCredentials(req.body.email, req.body.password)
+        res.send(user)
+    } catch (e) {
+        res.status(400).send()
     }
 })
 
