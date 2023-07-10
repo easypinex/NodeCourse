@@ -7,6 +7,11 @@ const port = process.env.PORT || 3000
 const user_router = require('./routers/users')
 const task_router = require('./routers/task')
 
+app.use((req, res, next) => {
+    console.log(req.method, req.path)
+    next()
+})
+
 app.use(express.json())
 app.use(user_router)
 app.use(task_router)
