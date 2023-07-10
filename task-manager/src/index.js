@@ -8,8 +8,7 @@ const user_router = require('./routers/users')
 const task_router = require('./routers/task')
 
 app.use((req, res, next) => {
-    console.log(req.method, req.path)
-    next()
+    res.status(503).send('Server are maintenance!')
 })
 
 app.use(express.json())
