@@ -54,6 +54,16 @@ routers.post('/users/logout', auth, async (req, res) => {
     }
 })
 
+routers.post('/users/logoutAll', auth, async (req, res) => {
+    try {
+        req.user.tokens = []
+        await req.user.save()
+        res.send()
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
 routers.patch('/users/:id', async (req, res) => {
     try {
         const updates = Object.keys(req.body)
