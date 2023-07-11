@@ -42,6 +42,18 @@ routers.post('/users/login', async (req, res) => {
     }
 })
 
+routers.post('/users/logout', auth, async (req, res) => {
+    try {
+        req.user.tokens = req.user.tokens.filter((token) => {
+            return token.token !== req.token
+        })
+        await req.user.save()
+        res.send()
+    } catch (e) {
+        res.status(500).send()
+    }
+})
+
 routers.patch('/users/:id', async (req, res) => {
     try {
         const updates = Object.keys(req.body)
