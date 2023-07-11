@@ -47,6 +47,12 @@ const user_schema = new mongoose.Schema({
     ]
 })
 
+user_schema.virtual('tasks', {
+    ref: 'Task',
+    localField: '_id',
+    foreignField: 'owner'
+})
+
 user_schema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({ email })
     if (!user) throw new Error('Unable to login')
