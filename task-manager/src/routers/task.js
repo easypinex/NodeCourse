@@ -5,9 +5,10 @@ const auth = require('../middleware/auth')
 
 router.get('/tasks', auth, async (req, res) => {
     try {
-        const tasks = await Task.find({})
-        res.status(200).send(tasks)
+        await req.user.populate('tasks')
+        res.send(req.user.tasks)
     } catch (e) {
+        console.log(e)
         res.status(500).send(e)
     }
 })
@@ -36,19 +37,21 @@ router.post('/tasks', auth, async (req, res) => {
     }
 })
 
-router.patch('/tasks/:id', async (req, res) => {
+router.patch('/tasks/:id', auth, async (req, res) => {
     try {
         const updates = Object.keys(req.body)
         const allow_update = ['description', 'completed']
         const valid = updates.every(update => allow_update.includes(update))
         if (!valid) return res.status(400).send('Invalid Updates!')
-        const task = await Task.findById(req.params.id);
+        const task = await Task.findOne({_id: req.params.id, owner: req.user._id});
+        if (!task) return res.status(404).send()
         updates.forEach(update => {
             task[update] = req.body[update]
         })
-        if (!task) return res.status(404).send()
+        await task.save()
         res.send(task)
     } catch (e) {
+        console.log(e)
         res.status(400).send(e)
     }
 })
