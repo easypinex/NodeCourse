@@ -43,7 +43,7 @@ router.patch('/tasks/:id', auth, async (req, res) => {
         const allow_update = ['description', 'completed']
         const valid = updates.every(update => allow_update.includes(update))
         if (!valid) return res.status(400).send('Invalid Updates!')
-        const task = await Task.findOne({_id: req.params.id, owner: req.user._id});
+        const task = await Task.findOne({ _id: req.params.id, owner: req.user._id });
         if (!task) return res.status(404).send()
         updates.forEach(update => {
             task[update] = req.body[update]
@@ -56,9 +56,9 @@ router.patch('/tasks/:id', auth, async (req, res) => {
     }
 })
 
-router.delete('/tasks/:id', async (req, res) => {
+router.delete('/tasks/:id', auth, async (req, res) => {
     try {
-        const task = await Task.findByIdAndDelete(req.params.id)
+        const task = await Task.findOneAndDelete({ _id: req.params.id, owner: req.user._id })
         if (!task) return res.status(404).send()
         res.send(task)
     } catch (e) {
