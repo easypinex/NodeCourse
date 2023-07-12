@@ -10,7 +10,10 @@ router.get('/tasks', auth, async (req, res) => {
             match.completed = req.query.completed === 'true'
         await req.user.populate({
             path: 'tasks',
-            match
+            match,
+            options: {
+                limit:2
+            }
         })
         res.send(req.user.tasks)
     } catch (e) {
