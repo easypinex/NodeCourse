@@ -2,6 +2,7 @@ const express = require('express')
 const User = require('../models/user')
 const routers = new express.Router()
 const auth = require('../middleware/auth')
+const multer = require('multer')
 
 routers.get('/users/me', auth, async (req, res) => {
     try {
@@ -54,7 +55,14 @@ routers.post('/users/logoutAll', auth, async (req, res) => {
     }
 })
 
-routers.patch('/users/me', auth, async (req, res) => {
+const upload = multer({
+    dest: 'avatars'
+})
+routers.post('/users/me/avatar', upload.single('avatar'), (req, res) => {
+    res.send()
+})
+
+routers .patch('/users/me', auth, async (req, res) => {
     try {
         const updates = Object.keys(req.body)
         const allow_updates = ['name', 'age', 'password', 'email']
