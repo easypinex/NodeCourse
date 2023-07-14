@@ -62,15 +62,17 @@ const upload = multer({
     },
     fileFilter: (req, file, cb) => {
         if (!file.originalname.match(/\.(png|jpg|jpeg)$/))
-            cb(new Error('Please uplaod a Image File'))
+            return cb(new Error('Please uplaod a Image File'), false)
         cb(undefined, true)
     }
 })
 routers.post('/users/me/avatar', upload.single('avatar'), (req, res) => {
     res.send()
+}, (error, req, res, next) => {
+    res.status(400).send({ error: error.message })
 })
 
-routers .patch('/users/me', auth, async (req, res) => {
+routers.patch('/users/me', auth, async (req, res) => {
     try {
         const updates = Object.keys(req.body)
         const allow_updates = ['name', 'age', 'password', 'email']
