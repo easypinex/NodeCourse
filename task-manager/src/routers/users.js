@@ -73,6 +73,17 @@ routers.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res)
     res.status(400).send({ error: error.message })
 })
 
+routers.delete('/users/me/avatar', auth, async (req, res) => {
+    try {
+        req.user.avatar = undefined
+        await req.user.save()
+        res.send()
+    } catch (e) {
+        console.log(e)
+        res.status(500).send()
+    }
+})
+
 routers.patch('/users/me', auth, async (req, res) => {
     try {
         const updates = Object.keys(req.body)
