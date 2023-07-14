@@ -55,6 +55,18 @@ routers.post('/users/logoutAll', auth, async (req, res) => {
     }
 })
 
+routers.get('/users/:id/avatar', async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+        if (!user || !user.avatar)
+            throw Error()
+        res.set('Content-Type', 'image/jpg')
+        res.send(user.avatar) 
+    } catch (e) {
+        res.stats(404).send()
+    }
+})
+
 const upload = multer({
     limits: {
         fileSize: 1024 * 1024 * 5
