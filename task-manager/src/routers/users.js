@@ -4,7 +4,7 @@ const routers = new express.Router()
 const auth = require('../middleware/auth')
 const multer = require('multer')
 const sharp = require('sharp')
-const { sendWelcomEmail }  = require('../emails/account')
+const { sendWelcomEmail, sendCancelationEmail } = require('../emails/account')
 
 routers.get('/users/me', auth, async (req, res) => {
     try {
@@ -64,7 +64,7 @@ routers.get('/users/:id/avatar', async (req, res) => {
         if (!user || !user.avatar)
             throw Error()
         res.set('Content-Type', 'image/png')
-        res.send(user.avatar) 
+        res.send(user.avatar)
     } catch (e) {
         res.stats(404).send()
     }
@@ -82,7 +82,7 @@ const upload = multer({
 })
 
 routers.post('/users/me/avatar', auth, upload.single('avatar'), async (req, res) => {
-    const buffer = await sharp(req.file.buffer).resize({ width:250, height:250 }).png().toBuffer()
+    const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer()
     req.user.avatar = buffer
     await req.user.save()
     res.send()
@@ -121,8 +121,10 @@ routers.patch('/users/me', auth, async (req, res) => {
 routers.delete('/users/me', auth, async (req, res) => {
     try {
         await req.user.deleteOne()
+        sendRemoveEmail(req.user.email, req.user.name)
         res.send(req.user)
     } catch (e) {
+        console.log(e)
         res.status(500).send(e)
     }
 })

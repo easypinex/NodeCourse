@@ -11,6 +11,16 @@ const sendWelcomEmail = (email, name) => {
         })
 }
 
+const sendCancelationEmail = (email, name) => {
+    sgMail
+        .send({
+            to: email, // Change to your recipient
+            from: 'easypinex@gmail.com', // Change to your verified sender
+            subject: 'Unfortunately you are left.',
+            text: `Unfortunately, ${name}, If you could give some advise for us to keep you in there, so appreciate.`,
+        })
+}
 module.exports = {
-    sendWelcomEmail
+    sendWelcomEmail,
+    sendCancelationEmail
 }
