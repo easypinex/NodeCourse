@@ -39,10 +39,22 @@ test('Should signup a new user', async () => {
 })
 
 test('Sholud login existing user', async () => {
-    await requests(app).post('/users/login').send({
+    const response = await requests(app).post('/users/login').send({
         email: userOne.email,
         password: userOne.password
     }).expect(200)
+
+    const user = await User.findById(response.body.user._id)
+    expect(user).not.toBeNull()
+    expect(response.body).toMatchObject({
+        user: {
+            name: userOne.name,
+            email: userOne.email,
+        },
+        token: user.tokens[1].token
+    })
+    expect(user.password).not.toBeNull()
+    expect(user.password).not.toBe(userOne.password)
 })
 
 test('Sholud not login nonexisting user', async () => {
