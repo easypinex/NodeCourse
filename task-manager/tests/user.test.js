@@ -80,11 +80,13 @@ test('Sholud not get profile for unauthenticated user', async() => {
 })
 
 test('Sholud delete account for user', async() => {
-    await requests(app)
+    const response = await requests(app)
             .delete('/users/me')
             .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
             .send()
             .expect(200)
+    const user = await User.findById(response.body._id)
+    expect(user).toBeNull()
 })
 
 test('Sholud not delete account for unauthenticated user', async() => {
