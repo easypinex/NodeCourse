@@ -105,3 +105,26 @@ test('Should upload avatar image', async () => {
     const user = await User.findById(userOneId)
     expect(user.avatar).toEqual(expect.any(Buffer))
 })
+
+test('Should upload valid user files', async () => {
+    const response = await requests(app)
+            .patch('/users/me')
+            .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+            .send({
+                name: 'Mika'
+            })
+            .expect(200)
+    expect(response.body.name).toBe('Mika')
+    const user = await User.findById(userOne._id)
+    expect(user.name).toEqual('Mika')
+})
+
+test('Should not upload invalid user files', async () => {
+    await requests(app)
+            .patch('/users/me')
+            .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
+            .send({
+                location: 'Monika'
+            })
+            .expect(400)
+})
