@@ -14,7 +14,9 @@ socket.on('message', (message) => {
 document.querySelector('#message-form').addEventListener('submit', (e) => {
     e.preventDefault()
     const value = e.target.elements.message.value
-    socket.emit('sendMessage', value)
+    socket.emit('sendMessage', value, (message) => {
+        console.log('The message was delivered', message)
+    })
 })
 
 document.querySelector('#send_location').addEventListener('click', () => {
