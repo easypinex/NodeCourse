@@ -2,6 +2,7 @@ const express = require('express')
 const http = require('http')
 const path = require('path')
 const socketio = require('socket.io')
+const Filter = require('bad-words')
 
 const app = express()
 const server = http.createServer(app)
@@ -12,6 +13,7 @@ const staticDir = path.join(__dirname, '..', 'public')
 
 app.use(express.static(staticDir))
 
+const filter = new Filter()
 io.on('connection', (socket) => {
     console.log('New Socket Connection.')
     // socket.emit('countUpdated', count)
@@ -24,8 +26,13 @@ io.on('connection', (socket) => {
     socket.emit('message', 'Welcome!')
 
     socket.on('sendMessage', (message, callback) => {
+
+        if (filter.isProfane(message)) {
+            return callback('Profanity is not allowed')
+        }
+
         io.emit('message', message)
-        callback('Delivered.')
+        callback()
     })
 
     socket.on('sendLocation', (position) => {
