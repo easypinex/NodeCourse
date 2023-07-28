@@ -18,8 +18,16 @@ app.use(express.static(staticDir))
 const filter = new Filter()
 io.on('connection', (socket) => {
     console.log('New Socket Connection.')
-    socket.broadcast.emit('message', 'A new user has joined!')
-    socket.emit('message', generateMessage('Welcome!'))
+    
+
+    socket.on('join', ({ username, room }) => {
+        socket.join(room)
+        // socket.emit io.emit socket.broadcast.emit
+        // io.to.emit socket.broadcast.to.emit
+
+        socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined!`))
+        socket.emit('message', generateMessage('Welcome!'))
+    })
 
     socket.on('sendMessage', (message, callback) => {
 
@@ -27,7 +35,7 @@ io.on('connection', (socket) => {
             return callback('Profanity is not allowed')
         }
 
-        io.emit('message', generateMessage(message))
+        io.to('Center City').emit('message', generateMessage(message))
         callback()
     })
 

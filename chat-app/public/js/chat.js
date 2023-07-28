@@ -1,23 +1,21 @@
 const socket = io()
-// socket.on('countUpdated', (count) => {
-//     console.log('The count has been uplaoded!', count)
-// })
 
-// document.querySelector('#increment').addEventListener('click', () => {
-//     socket.emit('increment')
-// })
-
+// Elements
 const $messageForm = document.querySelector('#message-form')
 const $messageFormInput = $messageForm.querySelector('input')
 const $messageFormButton = $messageForm.querySelector('button')
 const $messages = document.querySelector('#messages')
+
+// Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationMessageTemplate = document.querySelector('#location-message-template').innerHTML
 
+// Options
+const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true })
 socket.on('message', (message) => {
     console.log(message)
     const html = Mustache.render(messageTemplate, {
-        createAt: moment(message.createAt).format('h:mm a'), 
+        createAt: moment(message.createAt).format('h:mm a'),
         message: message.text
     })
     $messages.insertAdjacentHTML('beforeend', html)
@@ -62,3 +60,5 @@ $locationButton.addEventListener('click', () => {
         })
     })
 })
+
+socket.emit('join', { username, room })
