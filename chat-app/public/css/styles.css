@@ -110,7 +110,6 @@ button:disabled {
     flex-grow: 1;
     padding: 24px 24px 0 24px;
     overflow-y: scroll;
-    height: calc(100vh - 120px);
 }
 
 /* Message Styles */
