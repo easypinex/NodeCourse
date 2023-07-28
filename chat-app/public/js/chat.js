@@ -23,9 +23,10 @@ socket.on('message', (message) => {
     $messages.insertAdjacentHTML('beforeend', html)
 })
 
-socket.on('locationMessage', (url) => {
+socket.on('locationMessage', (locationMessage) => {
     const html = Mustache.render(locationMessageTemplate, {
-        url
+        url: locationMessage.url,
+        createAt: moment(locationMessage.createAt).format('h:mm a')
     })
     $messages.insertAdjacentHTML('beforeend', html)
 })

@@ -3,7 +3,7 @@ const http = require('http')
 const path = require('path')
 const socketio = require('socket.io')
 const Filter = require('bad-words')
-const { generateMessage } = require('./utils/message')
+const { generateMessage, generateLocationMessage } = require('./utils/message')
 
 
 const app = express()
@@ -18,12 +18,6 @@ app.use(express.static(staticDir))
 const filter = new Filter()
 io.on('connection', (socket) => {
     console.log('New Socket Connection.')
-    // socket.emit('countUpdated', count)
-    // socket.on('increment', () => {
-    //     count++
-    //     // socket.emit('countUpdated', count)
-    //     io.emit('countUpdated', count)
-    // })
     socket.broadcast.emit('message', 'A new user has joined!')
     socket.emit('message', generateMessage('Welcome!'))
 
@@ -38,7 +32,7 @@ io.on('connection', (socket) => {
     })
 
     socket.on('sendLocation', (position, callback) => {
-        io.emit('locationMessage', `https://google.com/maps?q=${position.latitude},${position.longitude}`)
+        io.emit('locationMessage', generateLocationMessage(`https://google.com/maps?q=${position.latitude},${position.longitude}`))
         callback()
     })
     socket.on('disconnect', () => {
