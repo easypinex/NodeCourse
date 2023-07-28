@@ -46,7 +46,7 @@ $messageForm.addEventListener('submit', (e) => {
     })
 })
 
-const $locationButton = document.querySelector('#send_location')
+const $locationButton = document.querySelector('#send-location')
 $locationButton.addEventListener('click', () => {
     if (!navigator.geolocation) {
         return alert('Geolocation is not supported by your browser.')
