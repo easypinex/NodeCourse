@@ -3,9 +3,7 @@
   <body>
     <h1>Chat App</h1>
 
-    <div id="messages">
-
-    </div>
+    <div id="messages"></div>
     <!-- <button id="increment">+1</button> -->
     <form id="message-form">
       <input name="message" placeholder="Message" />
@@ -16,6 +14,12 @@
     <script id="message-template" type="text/html">
       <div>
         <p>{{message}}</p>
+      </div>
+    </script>
+
+    <script id="location-message-template" type="text/html">
+      <div>
+        <a href="{{url}}" _target="_blank"> My current location</a>
       </div>
     </script>
 
