@@ -16,7 +16,7 @@ const addUser = ({ id, username, room }) => {
 
     // Check for existing user
     const existingUser = users.find((user) => {
-        return user.room === room && username === username
+        return user.room === room && user.username === username
     })
 
     // Validate username
@@ -29,6 +29,7 @@ const addUser = ({ id, username, room }) => {
     // Store user
     const user = { id, username, room }
     users.push(user)
+    console.log('join, ', user)
     return { user }
 }
 
@@ -39,12 +40,6 @@ const removeUser = (id) => {
     }
 }
 
-
-const user = addUser(({
-    id: 22,
-    username: 'Andrew  ',
-    room: 'South Philly'
-}))
 
 
 const getUser = (id) => {
