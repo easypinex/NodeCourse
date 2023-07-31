@@ -45,9 +45,10 @@ io.on('connection', (socket) => {
         if (filter.isProfane(message)) {
             return callback('Profanity is not allowed')
         }
-
-        io.to(user.room).emit('message', generateMessage(user.username, message))
-        callback()
+        if (user) {
+            io.to(user.room).emit('message', generateMessage(user.username, message))
+            callback()
+        }
     })
 
     socket.on('sendLocation', (position, callback) => {
